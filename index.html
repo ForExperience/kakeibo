@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>家計簿アプリ</title>
+  <meta name="viewport" content="width=device-width">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>最終目標金額「￥？？？？？？？？」まであと「￥？？？？？？？？」</h1>
+      <h1>今月貯金予想「￥？？？？？？？？」</h1>
+      <div class="d-flex justify-content-between">
+        <img class="sankaku1" id="sankaku1id" src="../pic/sankaku.jpg">
+        <h2 class="calendar-title"><span id="jsyear"></span>年 <span id="jsmonth"></span>月</h2>
+        <img class="sankaku2" id="sankaku2id" src="../pic/sankaku.jpg">
+      </div>
+    </header>
+
+    <table class="calendar-table">
+      <thead>
+        <tr><th>日</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th></tr>
+      </thead>
+      <tbody id="table-body">
+      </tbody>
+    </table>
+    <script type="text/javascript">
+    //処理日付の取得
+    var date;
+    date = new Date();
+
+    //ヘッダーの年月の格納
+    var year;
+    year = date.getFullYear();
+    jsyear.innerHTML = '<a>' + year + '</a>';
+    var month;
+    month = date.getMonth();
+    jsmonth.innerHTML = '<a>' + (month + 1) + '</a>';
+    document.getElementById('sankaku1id').addEventListener('click',
+    function(){
+      subt();
+    });
+    var subt = function(){
+      month = month - 1;
+      //month = month - 1;
+      jsmonth.innerHTML = '<a>' + (month + 1) + '</a>';
+    };
+    //日曜日(0)～土曜日(6)
+    var day;
+    day = date.getDay();
+    //月末の取得
+    var lastDate;
+    lastDate = new Date();
+    var nextYear
+    if (month === 11) {
+      nextYear = year + 1;
+    }else {
+      nextYear = year;
+    }
+    lastDate.setFullYear(year);
+    lastDate.setMonth(month + 1);
+    //lastDate.setMonth(month + 2);
+    lastDate.setDate(0);
+
+    //月始の取得
+    var firstDate;
+    firstDate = new Date();
+    firstDate.setFullYear(year);
+    firstDate.setMonth(month);
+    //firstDate.setMonth(month+1);
+    firstDate.setDate(1);
+    var firstDay;
+    firstDay = firstDate.getDay();
+    //カレンダー上での日付のカウント
+    var numDay;
+    numDay = 1;
+    var firstDayFlg;
+    firstDayFlg = 0;
+    //カレンダー作成
+    for (var i = 1; numDay <= lastDate.getDate(); i++) {
+      var th = document.createElement('th');
+      th.className = 'th' + i;
+      if (firstDayFlg === 0) {
+        if ((i-1) === firstDay) {
+          th.innerHTML = '<p>' + numDay + '</p>';
+          document.getElementById('table-body').appendChild(th);
+          numDay++;
+          firstDayFlg = 1;
+        }else {
+          th.innerHTML = '<p>' + '　' + '</p>';
+          document.getElementById('table-body').appendChild(th);
+        }
+      }else {
+        th.innerHTML = '<p>' + numDay + '</p>';
+        document.getElementById('table-body').appendChild(th);
+        numDay++;
+      }
+      if ( i%7 === 0) {
+        var row = document.getElementById('table-body').insertRow( -1 );
+      }
+      if (numDay-1 === lastDate.getDate()) {
+        for (var x = 0; x < (6-lastDate.getDay()); x++) {
+          var th = document.createElement('th');
+          th.innerHTML = '<p>' + '　' + '</p>';
+          document.getElementById('table-body').appendChild(th);
+        }
+      }
+    }
+    </script>
+  </div>
+</body>
+</html>

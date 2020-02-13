@@ -1,0 +1,46 @@
+@import url(../sanitize.css);
+*{
+  border: dotted 1px lime;
+}
+
+header h1{
+  margin: 0;
+  font-size: 24px;
+  font-weight: nomal;
+  text-align: center;
+}
+.sankaku1 {
+    margin: 0 ;
+    transform:rotate(-90deg);
+    width: 24px;
+    height: 24px;
+}
+header h2{
+  margin: 0 ;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+.sankaku2 {
+    margin: 0 ;
+    transform:rotate(90deg);
+    width: 24px;
+    height: 24px;
+}
+
+.row {
+  text-align: center;
+}
+.calendar-table {
+  clear: left;
+  width: 100%;
+  margin: 0 auto;
+  .is-today {
+    color: red;
+}
+td {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+}
