@@ -17,9 +17,10 @@
       <h1>最終目標金額「￥？？？？？？？？」まであと「￥？？？？？？？？」</h1>
       <h1>今月貯金予想「￥？？？？？？？？」</h1>
       <div class="d-flex justify-content-between">
-        <img class="sankaku1" id="sankaku1id" src="../pic/sankaku.jpg">
+        <img class="sankaku1" id="sankaku1id" src="https://uploda4.ysklog.net/f0a7fff3499c3f2ecf55eb0fd0efd30d.jpg
+">
         <h2 class="calendar-title"><span id="jsyear"></span>年 <span id="jsmonth"></span>月</h2>
-        <img class="sankaku2" id="sankaku2id" src="../pic/sankaku.jpg">
+        <img class="sankaku2" id="sankaku2id" src="https://uploda4.ysklog.net/f0a7fff3499c3f2ecf55eb0fd0efd30d.jpg">
       </div>
     </header>
 
@@ -44,6 +45,9 @@
     var month;
     month = date.getMonth();
     jsmonth.innerHTML = '<a>' + (month + 1) + '</a>';
+    var today;
+    today = date.getDate();
+
 
     //前月ボタンが押される
     document.getElementById('sankaku1id').addEventListener('click',
@@ -51,6 +55,7 @@
       mathdate(-1);
       cleartbody();
       makecalendar();
+      todayColor();
     });
     //次月ボタンが押される
     document.getElementById('sankaku2id').addEventListener('click',
@@ -58,6 +63,7 @@
       mathdate(1);
       cleartbody();
       makecalendar();
+      todayColor();
     });
 
     //前月・次月計算
@@ -95,18 +101,20 @@
       getfirstdate();
       for (var i = 1; numDay <= lastDate.getDate(); i++) {
         var th = document.createElement('th');
-        th.className = 'th' + i;
         if (firstDayFlg === 0) {
           if ((i-1) === firstDay) {
+            th.className = 'th' + numDay;
             th.innerHTML = '<p>' + numDay + '</p>';
             document.getElementById('table-body').appendChild(th);
             numDay++;
             firstDayFlg = 1;
           }else {
+            th.className = 'th_s' + i;
             th.innerHTML = '<p>' + '　' + '</p>';
             document.getElementById('table-body').appendChild(th);
           }
         }else {
+          th.className = 'th' + numDay;
           th.innerHTML = '<p>' + numDay + '</p>';
           document.getElementById('table-body').appendChild(th);
           numDay++;
@@ -117,6 +125,7 @@
         if (numDay-1 === lastDate.getDate()) {
           for (var x = 0; x < (6-lastDate.getDay()); x++) {
             var th = document.createElement('th');
+            th.className = 'th_s' + numDay;
             th.innerHTML = '<p>' + '　' + '</p>';
             document.getElementById('table-body').appendChild(th);
           }
@@ -154,6 +163,20 @@
     };
     makecalendar();
 
+    //処理年月日に色付け
+    var todayYear;
+    todayYear = date.getFullYear();
+    var todayMonth;
+    todayMonth = date.getMonth();
+
+    var todayColor = function(){
+      var objs = document.getElementsByClassName('th' + today);
+      if ((year === todayYear) && (month === todayMonth)){
+        objs[0].style.color = '#ffffff';            //文字色を白にする
+        objs[0].style.backgroundColor = '#00ff9c';  //背景色を赤にする
+      }
+    };
+    todayColor();
     </script>
   </div>
 </body>
