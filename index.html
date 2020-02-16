@@ -81,7 +81,6 @@
         jsyear.innerHTML = '<a>' + year + '</a>';
       }
       jsmonth.innerHTML = '<a>' + (month + 1) + '</a>';
-      console.log('前月次月：' + month);
     };
 
     //tbody初期化
@@ -95,7 +94,6 @@
     //カレンダー作成
     var makecalendar = function(){
       //カレンダー上での日付のカウント
-      console.log('カレンダーIn：' + month);
       var numDay;
       numDay = 1;
       var firstDayFlg;
@@ -126,10 +124,10 @@
           var row = document.getElementById('table-body').insertRow( -1 );
         }
         if (numDay-1 === lastDateV) {
-          console.log(lastDate.getFullYear());
-          console.log(lastDate.getMonth());
-          console.log(lastDate.getDate());
-          console.log(lastDate.getDay());
+          console.log('カレンダー作るときの当月の年　：' + lastDate.getFullYear());
+          console.log('カレンダー作るときの当月の月　※+1する　：' + lastDate.getMonth());
+          console.log('カレンダー作るときの当月の最終日　：' + lastDate.getDate());
+          console.log('カレンダー作るときの当月の最終日の曜日　※0：日曜　：' + lastDate.getDay());
 
           for (var x = 0; x < (6-lastDay); x++) {
             var th = document.createElement('th');
@@ -152,21 +150,19 @@
     var getlastdate = function(){
       if (month === 11) {
         nextYear = year + 1;
-        nextMonth = 0;
-      }else {
+        nextMonth = -1;
+      }else{
         nextYear = year;
         nextMonth = month;
       }
       nextMonth = nextMonth +1;
-      console.log('nextMonth：' + nextMonth);
-      console.log('nextYear：' + nextYear);
 
       lastDate.setFullYear(nextYear);
       lastDate.setMonth(nextMonth);
       lastDate.setDate(0);
       lastDateV = lastDate.getDate();
       lastDay = lastDate.getDay();
-      console.log('Call後月' + lastDate.getMonth());
+      console.log('Call後月 ※+1したら当月　：' + lastDate.getMonth());
     }
 
     //月始の取得
