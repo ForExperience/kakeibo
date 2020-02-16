@@ -17,10 +17,11 @@
       <h1>最終目標金額「￥？？？？？？？？」まであと「￥？？？？？？？？」</h1>
       <h1>今月貯金予想「￥？？？？？？？？」</h1>
       <div class="d-flex justify-content-between">
-        <img class="sankaku1" id="sankaku1id" src="https://uploda4.ysklog.net/f0a7fff3499c3f2ecf55eb0fd0efd30d.jpg
+        <img class="sankaku1" id="sankaku1id" src="https://uploda4.ysklog.net/23777865543b1b0b87a312ac6f6dc5b1.jpg
 ">
         <h2 class="calendar-title"><span id="jsyear"></span>年 <span id="jsmonth"></span>月</h2>
-        <img class="sankaku2" id="sankaku2id" src="https://uploda4.ysklog.net/f0a7fff3499c3f2ecf55eb0fd0efd30d.jpg">
+        <img class="sankaku2" id="sankaku2id" src="https://uploda4.ysklog.net/23777865543b1b0b87a312ac6f6dc5b1.jpg
+">
       </div>
     </header>
 
@@ -67,8 +68,8 @@
     });
 
     //前月・次月計算
-    var mathdate = function(x){
-      month = month + x;
+    var mathdate = function(math){
+      month = month + math;
       if (month < 0 ){
         month = 11;
         year = year - 1;
@@ -80,6 +81,7 @@
         jsyear.innerHTML = '<a>' + year + '</a>';
       }
       jsmonth.innerHTML = '<a>' + (month + 1) + '</a>';
+      console.log('前月次月：' + month);
     };
 
     //tbody初期化
@@ -93,13 +95,14 @@
     //カレンダー作成
     var makecalendar = function(){
       //カレンダー上での日付のカウント
+      console.log('カレンダーIn：' + month);
       var numDay;
       numDay = 1;
       var firstDayFlg;
       firstDayFlg = 0;
       getlastdate();
       getfirstdate();
-      for (var i = 1; numDay <= lastDate.getDate(); i++) {
+      for (var i = 1; numDay <= lastDateV; i++) {
         var th = document.createElement('th');
         if (firstDayFlg === 0) {
           if ((i-1) === firstDay) {
@@ -122,12 +125,18 @@
         if ( i%7 === 0) {
           var row = document.getElementById('table-body').insertRow( -1 );
         }
-        if (numDay-1 === lastDate.getDate()) {
-          for (var x = 0; x < (6-lastDate.getDay()); x++) {
+        if (numDay-1 === lastDateV) {
+          console.log(lastDate.getFullYear());
+          console.log(lastDate.getMonth());
+          console.log(lastDate.getDate());
+          console.log(lastDate.getDay());
+
+          for (var x = 0; x < (6-lastDay); x++) {
             var th = document.createElement('th');
             th.className = 'th_s' + numDay;
             th.innerHTML = '<p>' + '　' + '</p>';
             document.getElementById('table-body').appendChild(th);
+            numDay++;
           }
         }
       }
@@ -135,19 +144,29 @@
 
     //月末の取得
     var lastDate;
+    var lastDateV;
     lastDate = new Date();
+    var lastDay;
     var nextYear;
-
+    var nextMonth;
     var getlastdate = function(){
       if (month === 11) {
         nextYear = year + 1;
+        nextMonth = 0;
       }else {
         nextYear = year;
+        nextMonth = month;
       }
-      lastDate.setFullYear(year);
-      lastDate.setMonth(month + 1);
-      //lastDate.setMonth(month + 2);
+      nextMonth = nextMonth +1;
+      console.log('nextMonth：' + nextMonth);
+      console.log('nextYear：' + nextYear);
+
+      lastDate.setFullYear(nextYear);
+      lastDate.setMonth(nextMonth);
       lastDate.setDate(0);
+      lastDateV = lastDate.getDate();
+      lastDay = lastDate.getDay();
+      console.log('Call後月' + lastDate.getMonth());
     }
 
     //月始の取得
@@ -172,8 +191,8 @@
     var todayColor = function(){
       var objs = document.getElementsByClassName('th' + today);
       if ((year === todayYear) && (month === todayMonth)){
-        objs[0].style.color = '#ffffff';            //文字色を白にする
-        objs[0].style.backgroundColor = '#00ff9c';  //背景色を赤にする
+        //objs[0].style.color = '#ffffff';            //文字色を白にする
+        //objs[0].style.backgroundColor = '#00ff9c';  //背景色を赤にする
       }
     };
     todayColor();
