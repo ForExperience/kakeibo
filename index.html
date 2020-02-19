@@ -19,7 +19,9 @@
       <div class="d-flex justify-content-between">
         <img class="sankaku1" id="sankaku1id" src="https://uploda4.ysklog.net/23777865543b1b0b87a312ac6f6dc5b1.jpg
 ">
-        <h2 class="calendar-title"><span id="jsyear"></span>年 <span id="jsmonth"></span>月</h2>
+        <h2 class="calendar-title">
+          <span id="jsyear"></span>年 <span id="jsmonth"></span>月
+        </h2>
         <img class="sankaku2" id="sankaku2id" src="https://uploda4.ysklog.net/23777865543b1b0b87a312ac6f6dc5b1.jpg
 ">
       </div>
@@ -42,10 +44,10 @@
     //ヘッダーの年月（処理年月）
     var year;
     year = date.getFullYear();
-    jsyear.innerHTML = '<a>' + year + '</a>';
+    jsyear.innerHTML = year;
     var month;
     month = date.getMonth();
-    jsmonth.innerHTML = '<a>' + (month + 1) + '</a>';
+    jsmonth.innerHTML = (month + 1);
     var today;
     today = date.getDate();
 
@@ -69,18 +71,22 @@
 
     //前月・次月計算
     var mathdate = function(math){
-      month = month + math;
-      if (month < 0 ){
-        month = 11;
-        year = year - 1;
-        jsyear.innerHTML = '<a>' + year + '</a>';
+      var mathYear = Number(document.getElementById('jsyear').innerHTML);
+      var mathMonth = Number(document.getElementById('jsmonth').innerHTML);
+
+      mathMonth = mathMonth + math - 1;
+      console.log(mathMonth);
+      if (mathMonth < 0 ){
+        mathMonth = 11;
+        mathYear = mathYear - 1;
+        jsyear.innerHTML = mathYear;
       }
-      if (month > 11 ){
-        month = 0;
-        year = year + 1;
-        jsyear.innerHTML = '<a>' + year + '</a>';
+      if (mathMonth > 11 ){
+        mathMonth = 0;
+        mathYear = mathYear + 1;
+        jsyear.innerHTML = mathYear;
       }
-      jsmonth.innerHTML = '<a>' + (month + 1) + '</a>';
+      jsmonth.innerHTML = (mathMonth + 1);
     };
 
     //tbody初期化
@@ -98,8 +104,18 @@
       numDay = 1;
       var firstDayFlg;
       firstDayFlg = 0;
-      getlastdate();
-      getfirstdate();
+      lastDate = getlastdate();
+      var lastDateV;
+      var lastDay;
+      lastDateV = lastDate.getDate();
+      lastDay = lastDate.getDay();
+
+      firstDate = getfirstdate();
+      firstDay = firstDate.getDay();
+
+
+      console.log('Call後月 ※+1したら当月　：' + lastDate.getMonth());
+
       for (var i = 1; numDay <= lastDateV; i++) {
         var th = document.createElement('th');
         if (firstDayFlg === 0) {
@@ -141,40 +157,45 @@
     };
 
     //月末の取得
-    var lastDate;
-    var lastDateV;
-    lastDate = new Date();
-    var lastDay;
-    var nextYear;
-    var nextMonth;
+
+
     var getlastdate = function(){
-      if (month === 11) {
-        nextYear = year + 1;
+      var lastDate;
+      lastDate = new Date();
+      var nextYear;
+      var nextMonth;
+
+      var mathYear = Number(document.getElementById('jsyear').innerHTML);
+      var mathMonth = Number(document.getElementById('jsmonth').innerHTML);
+      mathMonth = mathMonth -1;
+      if (mathMonth === 11) {
+        nextYear = mathYear + 1;
         nextMonth = -1;
       }else{
-        nextYear = year;
-        nextMonth = month;
+        nextYear = mathYear;
+        nextMonth = mathMonth;
       }
       nextMonth = nextMonth +1;
 
       lastDate.setFullYear(nextYear);
       lastDate.setMonth(nextMonth);
       lastDate.setDate(0);
-      lastDateV = lastDate.getDate();
-      lastDay = lastDate.getDay();
-      console.log('Call後月 ※+1したら当月　：' + lastDate.getMonth());
+
+      return lastDate;
     }
 
     //月始の取得
-    var firstDate;
-    var firstDay;
-
     var getfirstdate = function(){
+      var firstDate;
+      var mathYear = Number(document.getElementById('jsyear').innerHTML);
+      var mathMonth = Number(document.getElementById('jsmonth').innerHTML);
+      mathMonth = mathMonth -1;
+
       firstDate = new Date();
-      firstDate.setFullYear(year);
-      firstDate.setMonth(month);
+      firstDate.setFullYear(mathYear);
+      firstDate.setMonth(mathMonth);
       firstDate.setDate(1);
-      firstDay = firstDate.getDay();
+      return firstDate;
     };
     makecalendar();
 
